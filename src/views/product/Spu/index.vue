@@ -127,7 +127,6 @@ export default {
          this.$message({type:'success',message:'删除成功'});
          this.getSpuList(this.records.length > 1 ? this.page:this.page-1);
        }
-
     },
   }
 }
