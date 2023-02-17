@@ -14,7 +14,7 @@
            <el-table-column prop="description" label="spu描述" width="width"></el-table-column>
            <el-table-column prop="prop" label="操作" width="width">
              <template v-slot="{row,$index}">
-                 <hint-button  type="success" icon="el-icon-plus" size="mini" title="添加sku"></hint-button>
+                 <hint-button  type="success" icon="el-icon-plus" size="mini" title="添加sku" @click="addSku(row)"></hint-button>
                  <hint-button type="warning" icon="el-icon-edit" size="mini" title="修改spu" @click="updateSpu(row)"></hint-button>
                  <hint-button type="info" icon="el-icon-info" size="mini" title="查看当前spu全部sku列表"></hint-button>
                  <el-popconfirm title="这是一段内容确定删除吗？" @onConfirm="deleteSpu(row)">
@@ -39,7 +39,7 @@
       </div>
         <SpuForm v-show="scene==1" @changeScene="changeScene" ref="spu"></SpuForm>
 
-        <SkuForm v-show="scene==2"></SkuForm>
+        <SkuForm v-show="scene==2" ref="sku" @changeScenes="changeScenes"></SkuForm>
 
     </el-card>
   </div>
@@ -120,6 +120,10 @@ export default {
        this.getSpuList(this.page);
      }
     },
+    // 子组件，自定义事件回调
+    changeScenes(scene,){
+      this.scene = scene;
+    },
     // 删除spu按钮回调
     async deleteSpu(row){
        let result = await this.$API.spu.reqDeleteSpu(row.id);
@@ -127,6 +131,13 @@ export default {
          this.$message({type:'success',message:'删除成功'});
          this.getSpuList(this.records.length > 1 ? this.page:this.page-1);
        }
+    },
+    // 添加sku按钮的回调
+    addSku(row){
+      // 切换场景2
+      this.scene = 2;
+      // 父组件调用子组件发送请求
+      this.$refs.sku.getData(row,this.category1Id,this.category2Id);
     },
   }
 }
