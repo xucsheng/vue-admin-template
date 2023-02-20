@@ -207,9 +207,7 @@ export default {
        this.$message({type:'success',message:'添加sku成功'});
        this.$emit('changeScenes',0);
      }
-
     },
-
   },
 }
 </script>

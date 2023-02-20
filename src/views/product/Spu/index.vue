@@ -16,7 +16,7 @@
              <template v-slot="{row,$index}">
                  <hint-button  type="success" icon="el-icon-plus" size="mini" title="添加sku" @click="addSku(row)"></hint-button>
                  <hint-button type="warning" icon="el-icon-edit" size="mini" title="修改spu" @click="updateSpu(row)"></hint-button>
-                 <hint-button type="info" icon="el-icon-info" size="mini" title="查看当前spu全部sku列表"></hint-button>
+                 <hint-button type="info" icon="el-icon-info" size="mini" title="查看当前spu全部sku列表" @click="handler(row)"></hint-button>
                  <el-popconfirm title="这是一段内容确定删除吗？" @onConfirm="deleteSpu(row)">
                    <hint-button  slot="reference"  type="danger" icon="el-icon-delete" size="mini" title="删除spu"> </hint-button>
                  </el-popconfirm>
@@ -42,6 +42,18 @@
         <SkuForm v-show="scene==2" ref="sku" @changeScenes="changeScenes"></SkuForm>
 
     </el-card>
+    <el-dialog :title="`${spu.spuName}的sku的列表`" :visible.sync="dialogTableVisible" :before-close="close">
+      <el-table :data="skuList" style="width: 100%" border  v-loading="loading">
+        <el-table-column property="skuName" label="姓名" width="width"></el-table-column>
+        <el-table-column property="price" label="价格" width="width"></el-table-column>
+        <el-table-column property="weight" label="重量" width="width"></el-table-column>
+        <el-table-column property="" label="默认图片" width="width">
+          <template v-slot="{row,$index}" >
+            <img :src="row.skuDefaultImg" style="width: 100px;height: 100px"/>
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -64,6 +76,10 @@ export default {
       records:[],
       scene:0,// 0代码展示SPU列表数据  1：添加SPU|修改SPU 2：添加SKU
       spuInfo:{},
+      dialogTableVisible:false, // 控制对话框显示和隐藏
+      spu:{},
+      skuList:[],
+      loading:true,
     }
   },
   methods:{
@@ -139,6 +155,25 @@ export default {
       // 父组件调用子组件发送请求
       this.$refs.sku.getData(row,this.category1Id,this.category2Id);
     },
+    // 查看sku按钮的回调
+    async handler(spu){
+      this.dialogTableVisible =true;
+      // 保存spu的信息
+      this.spu = spu;
+      let result = await this.$API.spu.reqSkuList(spu.id);
+      if(result.code==200){
+        this.skuList = result.data;
+        // 加载loading隐藏还是显示
+        this.loading = false;
+      }
+    },
+    // 关闭对话会
+    close(done){
+     this.loading = true;
+     // 清除sku列表数据
+      this.skuList =[];
+      done();
+    }
   }
 }
 
