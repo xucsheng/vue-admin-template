@@ -37,6 +37,10 @@ export default {
             },
             // 线条的样式
             lineStyle:{
+              color:'purple',
+            },
+            // 填充颜色设置
+            areaStyle:{
               color:{
                 type:'linear',
                 x:0,
@@ -55,10 +59,6 @@ export default {
                 ],
                 global:false,
               }
-            },
-            // 填充颜色设置
-            areaStyle:{
-              color:'purple'
             }
           }
         ],
