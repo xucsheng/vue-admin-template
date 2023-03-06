@@ -164,12 +164,7 @@ export default {
   background-color: #d3dce6;
 }
 
-.el-carousel__button{
-   width: 10px;
-   height: 10px;
-   background: red;
-   border-radius: 50%;
- }
+
 </style>
 
 <style scoped>
@@ -180,5 +175,11 @@ export default {
   .el-col{
     margin: 10px 10px;
     }
+  >>>.el-carousel__button{
+    width: 10px;
+    height: 10px;
+    background: red;
+    border-radius: 50%;
+  }
 
 </style>

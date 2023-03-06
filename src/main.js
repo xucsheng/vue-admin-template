@@ -45,7 +45,8 @@ import HintButton from "@/components/HintButton";
 Vue.component(HintButton.name,HintButton);
 // 引入原型
 Vue.prototype.$API = API;
-
+import echarts from "echarts";
+Vue.prototype.$echarts = echarts;
 new Vue({
   el: '#app',
   router,

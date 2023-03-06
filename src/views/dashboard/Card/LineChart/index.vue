@@ -1,0 +1,83 @@
+<template>
+    <div class="charts" ref="charts">
+
+    </div>
+</template>
+
+<script>
+
+export default {
+  name: "LineChart",
+  mounted() {
+    this.drawLine();
+  },
+  methods:{
+    drawLine(){
+      // 初始化echarts实例
+      let lineCharts = this.$echarts.init(this.$refs.charts);
+      // 配置数据
+      lineCharts.setOption({
+        xAxis:{
+          type:'category',
+          // 隐藏x轴
+          show:false,
+        },
+        yAxis:{
+          // 隐藏y轴
+          show:false,
+        },
+        // 系列
+        series:[
+          {
+            type:'line',
+            data:[10,7,33,12,48,9,29,10,44],
+            // 拐点的样式的设置
+            itemStyle:{
+              opacity:0,
+            },
+            // 线条的样式
+            lineStyle:{
+              color:{
+                type:'linear',
+                x:0,
+                y:0,
+                x2:0,
+                y2:1,
+                colorStops:[
+                  {
+                    offset:0,
+                    color:'purple'
+                  },
+                  {
+                    offset:1,
+                    color: '#fff',
+                  }
+                ],
+                global:false,
+              }
+            },
+            // 填充颜色设置
+            areaStyle:{
+              color:'purple'
+            }
+          }
+        ],
+        // 布局调试
+        grid:{
+          left:0,
+          top:0,
+          right:0,
+          bottom:0,
+        }
+      })
+    }
+  }
+}
+</script>
+
+<style scoped>
+ .charts{
+   width: 100%;
+   height: 100%;
+ }
+</style>
