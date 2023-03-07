@@ -19,8 +19,9 @@ export default {
     Sale,
     Observe
   },
-  computed: {
-  }
+ mounted() {
+    this.$store.dispatch('getData');
+ }
 }
 </script>
 

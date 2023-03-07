@@ -85,6 +85,7 @@
 import dayjs from "dayjs";
 import lang from 'element-ui/lib/locale/lang/zh-CN';
 import locale from 'element-ui/lib/locale';
+import {mapState} from "vuex";
 
 // 引入中文语言包
 locale.use(lang);
@@ -121,7 +122,7 @@ export default {
       xAxis: [
         {
           type: 'category',
-          data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月','8月','9月','10月','11月','12月'],
+          data: [],
           axisTick: {
             alignWithLabel: true
           }
@@ -137,16 +138,21 @@ export default {
         name: 'Direct',
         type: 'bar',
         barWidth: '60%',
-        data: [10, 52, 200, 334, 390, 330, 220,110,98,167,123,44],
+        data: [],
         color:'yellowgreen'
       }
     ]
     })
+    //顶部mounted:为什么第一次没有数据，因此不显示
   },
   computed:{
     title(){
       return this.activeName =='sale'?'销售额':'访问量';
-    }
+    },
+    ...mapState({
+       listState:state=>state.home.list
+    }),
+
   },
   // 监控属性
   watch:{
@@ -156,7 +162,27 @@ export default {
       this.myCharts.setOption({
         title:{
           text: this.title+'趋势',
-        }
+        },
+        xAxis:{
+          data:this.title=='销售额' ? this.listState.orderFullYearAxis : this.listState.userFullYearAxis,
+        },
+        series: [
+          {
+            data: this.title=='销售额' ? this.listState.orderFullYear : this.listState.userFullYear,
+          }
+          ]
+      })
+    },
+    listState(){
+      this.myCharts.setOption({
+        xAxis:{
+          data: this.listState.orderFullYearAxis ,
+        },
+        series: [
+          {
+            data:  this.listState.orderFullYear,
+          }
+        ]
       })
     }
   },
