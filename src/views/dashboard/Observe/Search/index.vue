@@ -26,15 +26,33 @@
              <LineChart> </LineChart>
         </el-col>
       </el-row>
+      <!--table表格--->
+      <el-table :data="tableData" style="width: 80%"   border>
+        <el-table-column label="排名" width="180" type="index" ></el-table-column>
+        <el-table-column label="搜索关键子" width="180"></el-table-column>
+        <el-table-column label="用户数" sortable></el-table-column>
+        <el-table-column label="周涨幅" sortable></el-table-column>
+      </el-table>
+      <!--分页器-->
+      <el-pagination class="pagination"
+        layout="prev, pager, next"
+        :total="1000">
+      </el-pagination>
     </div>
   </el-card>
+
 </template>
 
 <script>
 import LineChart from "./LineChart";
 
 export default {
-  name: "index",
+  name: "Search",
+  data(){
+    return{
+      tableData:[{}],
+    }
+  },
   components:{
     LineChart,
   }
@@ -49,5 +67,8 @@ export default {
 .header{
   border-bottom: 1px solid #eee;
   padding: 5px 0px;
+}
+.pagination{
+  float: right;
 }
 </style>
